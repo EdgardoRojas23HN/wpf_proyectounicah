@@ -6,7 +6,7 @@ Create database Reservaciones
 go
 
 --Utilizar la base de datos
-use Reservaciones
+use reservaciones
 go
 
 --Crear los schema de la base de datos
@@ -75,14 +75,14 @@ GO
 --La fecha de salida no puede ser menor o igual ala fecha de ingreso
 alter table Habitaciones.Reservacion with check
 	add constraint CHK_Habitaciones_Habitacion$VerificarFechaSalida
-	check (fecha > fechaIngreso)
+	check (fechaSalida > fechaIngreso)
 go
 
 --No puede existir nombres de usuarios repetidos
-Alter Table Usuarios.Usuario
+Alter Table Usuarios.Usuario 
 	add constraint AK_Usuarios_Usuario_username
 	unique NONCLUSTERED (username)
-		
+	
 go
 
 --la contraseña debe contener al menos 6 caracteres
@@ -90,4 +90,6 @@ go
 	add constraint CHK_Usuarios_Usuario$VerificarLongitudContraseña
 	check (LEN(password) >=6 )
 go
-insert into Habitaciones.Habitacion VALUES (1, 'Habitacion sencilla', 10, 'NO DISPONIBLE') 
+
+
+--insert into Habitaciones.Habitacion (id, descripcion, numero, estado) VALUES (1, 'Habitacion sencilla', 10, 'NO DISPONIBLE') 
