@@ -61,10 +61,13 @@ namespace wpf_proyectounicah
                 //Establecer la conexion
                 //esta linea de codigo no es tan importante ya que el using me abrira
                 //la conexion
-              //  sqlConnection.Open();
+               sqlConnection.Open();
 
                 //crear  el comando SQL
                 SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                //Establecer los valores de los parametros
+                sqlCommand.Parameters.AddWithValue("@username", username);
 
                 using (SqlDataReader rdr = sqlCommand.ExecuteReader())
 
@@ -75,7 +78,7 @@ namespace wpf_proyectounicah
                         usuario.Id = Convert.ToInt32(rdr["id"]);
                         usuario.NombreCompleto = rdr["nombreCompleto"].ToString();
                         usuario.Username = rdr["username"].ToString();
-                        usuario.Password = rdr["passwor"].ToString();
+                        usuario.Password = rdr["password"].ToString();
                         usuario.Estado = Convert.ToBoolean(rdr["estado"]);
 
                     }
