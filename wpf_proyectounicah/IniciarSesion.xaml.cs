@@ -46,7 +46,10 @@ namespace wpf_proyectounicah
 
                     if (elUsuario.Password == pwbPassword.Password && elUsuario.Estado)
                     {
-                        MessageBox.Show("¡Bienvenido al sistema de reservaciones!");
+                        //Mostrar el formulario de Menu principal
+                        MenuPrincipal menu = new MenuPrincipal(elUsuario.NombreCompleto);
+                        menu.Show();
+                        Close();
                     }
                     else if (!elUsuario.Estado)
                     {
