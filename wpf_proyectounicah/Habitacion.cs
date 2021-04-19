@@ -43,6 +43,11 @@ namespace wpf_proyectounicah
             Estado = estado;
         }
         //Metodos
+        /// <summary>
+        /// Retorna el estado de la habitacion desde el enum de estados
+        /// </summary>
+        /// <param name="estado">El valor dentro del enum </param>
+        /// <returns>Estado valido dentro de la base de datos</returns>
         private string ObtenerEstados(EstadosHabitacion estado) 
         {
             switch (estado) 
@@ -62,7 +67,10 @@ namespace wpf_proyectounicah
                     return "DISPONIBLE";
             }
             }
-
+        /// <summary>
+        /// Inserta una habitacion.
+        /// </summary>
+        /// <param name="habitacion">La informacion de la habitacion</param>
         public void CrearHabitacion(Habitacion habitacion ) 
         {
             try 
