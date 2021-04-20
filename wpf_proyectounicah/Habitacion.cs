@@ -104,6 +104,44 @@ namespace wpf_proyectounicah
             }
             
         }
+        public List<Habitacion> MostrarHabitaciones() 
+        {
+            //Inicializa una lista vacia de habitaciones
+            List<Habitacion> habitaciones = new List<Habitacion>();
+            try
+            {
+                //Query de seleccion
+                string query = @"SELECT id, descripcion 
+                                FROM  habitaciones.habitacion";
+                //Establecer la conexión
+                sqlConnection.Open();
+
+                //Crear el comando SQL 
+                SqlCommand sqlCommand = new SqlCommand();
+
+                //Obtener los datos de las habitaciones
+                using (SqlDataReader rdr = sqlCommand.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        habitaciones.Add(new Habitacion { Id = Convert.ToInt32(rdr["id"]), Descripcion = rdr["descripcion"].ToString() });
+                    }
+                }
+                return habitaciones;
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally 
+            {
+                //Cerrar la conexion
+                sqlConnection.Close();
+            }
+
+        }
     
     }   
 }
