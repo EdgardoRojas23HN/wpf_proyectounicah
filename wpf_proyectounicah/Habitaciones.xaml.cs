@@ -97,7 +97,6 @@ namespace wpf_proyectounicah
             {
                 
             }
-
             else
             {
                 try
@@ -124,7 +123,6 @@ namespace wpf_proyectounicah
 
             }
         }
-
         private void btnModificar_Click(object sender, RoutedEventArgs e)
         {
             if (lbHabitaciones.SelectedValue == null)
@@ -203,6 +201,41 @@ namespace wpf_proyectounicah
         {
             //Cerrar el formulario
             this.Close();
+        }
+
+        private void btnEliminar_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (lbHabitaciones.SelectedValue == null)
+                {
+                    MessageBox.Show("Porfavor selecciona una habitacion desde el listado");
+                }
+                else 
+                {
+                    //Mostrar un mensaje de confirmacion
+                    MessageBoxResult result = MessageBox.Show("¿Deseas eliminar la habitacion ?", "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        //Eliminar la habitacion 
+                        habitacion.EliminarHabitacion(Convert.ToInt32(lbHabitaciones.SelectedValue));
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ha ocurrido un error al momento de eliminar la habitacion...");
+                Console.WriteLine(ex.Message);
+            }
+            finally 
+            {
+                //Actualizar el listbox de habitaciones
+                ObtenerHabitaciones();
+
+            }
         }
     }
 }
