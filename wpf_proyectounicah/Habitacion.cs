@@ -16,7 +16,7 @@ namespace wpf_proyectounicah
         Ocupada = 'O',
         Disponible = 'D',
         Mantenimiento  = 'M', 
-        FueraServicio= 'F'
+        FueraDeServicio= 'F'
     }
     class Habitacion
     {
@@ -61,7 +61,7 @@ namespace wpf_proyectounicah
                 case EstadosHabitacion.Mantenimiento:
                     return "MANTENIMIENTO";
 
-                case EstadosHabitacion.FueraServicio: 
+                case EstadosHabitacion.FueraDeServicio: 
                     return "FUERA DE SERVICIO";
                 default:
                     return "DISPONIBLE";
@@ -117,7 +117,7 @@ namespace wpf_proyectounicah
                 sqlConnection.Open();
 
                 //Crear el comando SQL 
-                SqlCommand sqlCommand = new SqlCommand();
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
 
                 //Obtener los datos de las habitaciones
                 using (SqlDataReader rdr = sqlCommand.ExecuteReader())
@@ -130,10 +130,10 @@ namespace wpf_proyectounicah
                 return habitaciones;
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
 
-                throw e;
+                throw ex;
             }
             finally 
             {

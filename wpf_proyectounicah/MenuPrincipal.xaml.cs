@@ -36,5 +36,11 @@ namespace wpf_proyectounicah
         
         }
 
+        private void btnHabitaciones_Click(object sender, RoutedEventArgs e)
+        {
+            //Nueva instancia de la ventana de habitaciones
+            Habitaciones habitaciones = new Habitaciones();
+            habitaciones.Show(); 
+        }
     }
 }
