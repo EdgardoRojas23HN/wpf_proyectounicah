@@ -44,9 +44,11 @@ namespace wpf_proyectounicah
 
         private void ObtenerValoresFormulario() 
         {
+
             habitacion.Descripcion = txtdescripcion.Text;
             habitacion.Numero = Convert.ToInt32(txtNumeroHabitacion.Text);
             habitacion.Estado = (EstadosHabitacion)cmbEstado.SelectedValue;
+            habitacion.Id = Convert.ToInt32(lbHabitaciones.SelectedValue);
         }
         private void ObtenerHabitaciones()
         {
@@ -65,18 +67,38 @@ namespace wpf_proyectounicah
             cmbEstado.SelectedValue = habitacion.Estado;
         }
 
-        private void btnAgregar_Click(object sender, RoutedEventArgs e)
+        private void OcultarBotonesOperaciones(Visibility ocultar) 
+        {
+            btnAgregar.Visibility = ocultar;
+            btnModificar.Visibility = ocultar;
+            btnEliminar.Visibility = ocultar;
+            btnRegresar.Visibility = ocultar;
+        }
+
+        private bool VerificarValores() 
         {
             //Verificar que se ingresaron los valores requeridos
             if (txtdescripcion.Text == string.Empty || txtNumeroHabitacion.Text == string.Empty)
             {
                 MessageBox.Show("Por favor ingresa todos los valores en las cajas de texto ");
+                return false;
             }
             else if (cmbEstado.SelectedValue == null)
             {
                 MessageBox.Show("Por favor selecciona el estado de la habitacion");
+                return false;
             }
-            else 
+            return true;
+        }
+
+        private void btnAgregar_Click(object sender, RoutedEventArgs e)
+        {
+            if(VerificarValores())
+            {
+                
+            }
+
+            else
             {
                 try
                 {
@@ -94,12 +116,12 @@ namespace wpf_proyectounicah
                     MessageBox.Show("Ha ocurrido un error al momento de insertar la habitacion..");
                     Console.WriteLine(ex.Message);
                 }
-                finally 
+                finally
                 {
                     LimpiarFormulario();
                     ObtenerHabitaciones();
-                } 
-               
+                }
+
             }
         }
 
@@ -118,8 +140,9 @@ namespace wpf_proyectounicah
 
                     //Llenar los valores del formulario
                      ValoresFormularioDesdeObjeto();
-                
+
                     //Ocultar los botones de operaciones CRUD
+                    OcultarBotonesOperaciones(Visibility.Hidden);
                 }
                 catch (Exception ex)
                 {
@@ -128,6 +151,58 @@ namespace wpf_proyectounicah
                     MessageBox.Show(ex.Message);
                 }
             }
+        }
+        private void btnCancelar_Click(object sender, RoutedEventArgs e)
+        {
+            //Mostrar los bootnes de operaciones CRUD
+            OcultarBotonesOperaciones(Visibility.Visible);
+            LimpiarFormulario();
+
+        }
+
+        private void btnAceptar_Click(object sender, RoutedEventArgs e)
+        {
+            if (VerificarValores())
+            {
+                try
+                {
+                    //Obtener los valores para la habitacion desde el formulario
+                    ObtenerValoresFormulario();
+
+                    //Actualizar los valores en la base de datos
+                    habitacion.ModificarHabitacion(habitacion);
+
+                    //actualizar el listbox  de habitaciones
+                    ObtenerHabitaciones();
+
+                    //Mensaje de actualizacion realizada
+                    MessageBox.Show("!Habitacion modificada correctamente¡");
+
+                    //Mostrar los botones de operaciones CRUD
+                    OcultarBotonesOperaciones(Visibility.Visible);
+
+                    //Limpiar el formulario
+                    LimpiarFormulario();
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Error al momento de actualizar la habitacion...");
+                    Console.WriteLine(ex.Message);
+                }
+                finally 
+                {
+                    //Actualizar el listbox de habitaciones
+                    ObtenerHabitaciones();
+                }
+
+            }
+        }
+
+        private void btnRegresar_Click(object sender, RoutedEventArgs e)
+        {
+            //Cerrar el formulario
+            this.Close();
         }
     }
 }

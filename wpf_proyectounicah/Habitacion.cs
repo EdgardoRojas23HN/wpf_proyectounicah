@@ -188,6 +188,40 @@ namespace wpf_proyectounicah
                 sqlConnection.Close();
             }
         }
+        public void ModificarHabitacion(Habitacion habitacion) 
+        {
+            try
+            {
+                //Query de actualizacion 
+                string query = @"UPDATE Habitaciones.Habitacion
+                                SET descripcion = @descripcion, numero = @numero, estado = @estado
+                                WHERE id = @id";
+                //Establecer la conexion
+                sqlConnection.Open();
+
+                //Crear el comando sql
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                //Establecer los valores de los parametros
+                sqlCommand.Parameters.AddWithValue("@id", habitacion.Id);
+                sqlCommand.Parameters.AddWithValue("@descripcion", habitacion.Descripcion);
+                sqlCommand.Parameters.AddWithValue("@numero", habitacion.Numero);
+                sqlCommand.Parameters.AddWithValue("@estado", ObtenerEstados(habitacion.Estado));
+
+
+                //Ejecutar el comando de actualizacion
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally 
+            {
+                sqlConnection.Close();
+            }
+        }
 
 
     }   
