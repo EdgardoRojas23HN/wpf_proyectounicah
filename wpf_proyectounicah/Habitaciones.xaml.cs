@@ -57,6 +57,14 @@ namespace wpf_proyectounicah
 
 
         }
+
+        private void ValoresFormularioDesdeObjeto() 
+        {
+            txtdescripcion.Text = habitacion.Descripcion;
+            txtNumeroHabitacion.Text = habitacion.Numero.ToString();
+            cmbEstado.SelectedValue = habitacion.Estado;
+        }
+
         private void btnAgregar_Click(object sender, RoutedEventArgs e)
         {
             //Verificar que se ingresaron los valores requeridos
@@ -94,7 +102,32 @@ namespace wpf_proyectounicah
                
             }
         }
-        
 
+        private void btnModificar_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbHabitaciones.SelectedValue == null)
+            {
+                MessageBox.Show("Porfavor seleccionar una habitacion desde el listado");
+            }
+            else 
+            {
+                try
+                {
+                    //Obtener la informacion de la habitacion
+                    habitacion = habitacion.BuscarHabitacion(Convert.ToInt32(lbHabitaciones.SelectedValue));
+
+                    //Llenar los valores del formulario
+                     ValoresFormularioDesdeObjeto();
+                
+                    //Ocultar los botones de operaciones CRUD
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Ha ocurrido un error al momento de modificar la habitacion...");
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
     }
 }

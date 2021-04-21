@@ -142,6 +142,53 @@ namespace wpf_proyectounicah
             }
 
         }
-    
+        public Habitacion BuscarHabitacion(int id)
+        {
+            Habitacion lahabitacion = new Habitacion();
+
+            try
+            {
+                //Query de busqueda 
+                string query = @"Select * FROM Habitaciones.Habitacion 
+                                WHERE  id = @id";
+
+                //Establecer la conexion
+                sqlConnection.Open();
+
+                //Crear el comando SQL
+                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+
+                //Establecer el valor del parametro 
+                sqlCommand.Parameters.AddWithValue("@id", id);
+
+                using (SqlDataReader rdr = sqlCommand.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                       
+
+                        lahabitacion.Id = Convert.ToInt32(rdr["id"]);
+                        lahabitacion.Descripcion = rdr["descripcion"].ToString();
+                        lahabitacion.Numero = Convert.ToInt32(rdr["numero"]);
+                        lahabitacion.Estado = (EstadosHabitacion)Convert.ToChar(rdr["estado"].ToString().Substring(0,1));
+                    }
+
+                }
+
+                return lahabitacion;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally 
+            {
+                //Cerrar la conexion
+                sqlConnection.Close();
+            }
+        }
+
+
     }   
 }
